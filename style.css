@@ -1,0 +1,581 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+body {
+    font-family: "Nunito", sans-serif;
+    font-style: normal;
+    background-color: #f0e4d7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+img{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 100px;
+    margin-bottom: 5px;
+    animation-duration: 1.5s;
+    animation-name: Bobbing;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.logo-img {
+    width: 500px;
+    height: auto;
+    animation-duration: 1.5s;
+    animation-name: Bobbing;
+}
+
+@keyframes Bobbing{
+    from{
+        translate: 0 -5px;
+    }
+
+    to {
+        translate: 0 -15px;
+    }
+}
+
+.game-container {
+    width: 100%;
+    height: 100vh;
+    max-width: 1200px;
+    max-height: 800px;
+    position: relative;
+    background-image: url('https://placehold.co/1200x800/d7bfa5/6b5247?text=Toserba+Background');
+    background-size: cover;
+    background-position: center;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 2rem;
+}
+
+.character {
+    position: absolute;
+    transition: left 7s, bottom 7s, top 7s;
+    transform: scale(0.8);
+    transform-origin: bottom center;
+    z-index: 5;
+    opacity: 0;
+}
+
+.character.visible {
+    opacity: 1;
+}
+
+.character img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease; /* Add transition for smooth flipping */
+}
+
+.character img.flip {
+    transform: scaleX(-1);
+}
+
+.character.entering {
+  opacity: 1 !important;
+  transition: left 3s ease-in-out, opacity 1s ease-in-out;
+}
+
+.character.bargain-hunter img {
+    content: url('https://api.dicebear.com/8.x/pixel-art/svg?seed=bargain-hunter&clothing=variant01');
+}
+
+.character.average-joe img {
+    content: url('https://api.dicebear.com/8.x/pixel-art/svg?seed=average-joe&clothing=variant12');
+}
+
+.character.big-spender img {
+    content: url('https://api.dicebear.com/8.x/pixel-art/svg?seed=big-spender&clothing=variant23');
+}
+
+.thought-bubble {
+    position: absolute;
+    top: -40px; /* Position above the character */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.thought-bubble.visible {
+    opacity: 1;
+}
+
+.stands-container {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    z-index: 10;
+}
+
+.character.alien-special,
+.character.thief-special {
+    z-index: 1000;
+    width: 20%;
+    cursor: pointer;
+}
+
+.item-stand {
+    position: relative;
+    width: 100px;
+    height: 120px;
+    background-image: url('https://placehold.co/100x120/a1887f/8d6e63?text=Stand');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.item-stand:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.item-stand .item {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.item-stand .quantity {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+
+.interact-button {
+    position: absolute;
+    background-color: #6d4c41;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    display: none; /* Hidden by default */
+    transform: translate(-50%, -100%);
+    white-space: nowrap;
+}
+
+.interact-button:hover {
+    background-color: #4e342e;
+    transform: translate(-50%, -100%) scale(1.05);
+}
+
+.timer-panel{
+    left: 6.5rem;
+    top: 0.0rem;
+    font-weight: bold;
+    color: #FF7300;
+}
+
+
+#timer-display-cover, #day-display-cover, #weather-display-cover{
+    background: #FF7300;
+}
+
+#timer-display-cover, #day-display-cover{
+    width: 58px;
+    height: 40px;
+    left: 960px;
+    border-radius: 60px 0px 0px 60px;
+}
+
+#weather-display-cover{
+    width: 70px;
+    height: 140px;
+    left: 1160px;
+    top: 4px;
+    border-radius: 10px;
+}
+
+#day-display-cover{
+    top: 0.95rem;
+}
+
+#timer-display-cover{
+    top: 5.65rem;
+}
+
+.timer-panel,#day-display-front, #day-display-back, #timer-display-back, #timer-display-front,#weather-display-front, #day-display-cover, #timer-display-cover, #weather-display-cover, #weather-display-back{
+    position: absolute;
+}
+
+#day-display-front, #timer-display-front, #weather-display-front{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#day-display-front,#day-display-back{
+    border-radius: 100px 60px 60px 2px;
+}
+
+#timer-display-front,#timer-display-back{
+    border-radius: 2px 60px 60px 100px;
+}
+
+#day-display-back, #timer-display-back, #weather-display-back{
+    background: #FDB606;
+}
+
+#day-display-back{
+    width: 141px;
+    height: 50px;
+    left: 973px;
+    top: 15px;
+    
+}
+
+#timer-display-back{
+    width: 141px;
+    height: 50px;
+    left: 973px;
+    top: 80px;
+}
+
+#day-display-front, #timer-display-front, #weather-display-front{
+    background: #FFE100;
+}
+
+#weather-display-front, #weather-display-back{
+    border-radius: 60px;
+}
+
+#day-display-front, #timer-display-front{
+    width: 129px;
+    height: 45px;
+    left: 986px;
+    font-weight: 800;
+}
+
+#day-display-front{
+    top: 20px;
+}
+
+#timer-display-front{
+    top: 80px;  
+}
+
+#weather-display-front{
+    width: 98px;
+    height: 98px;
+    left: 1120px;
+    top: 25px;
+}
+
+#weather-display-back{
+    width: 104px;
+    height: 104px;
+    left: 1114px;
+    top: 18px;
+}
+
+
+.ui-panel {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+  
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.ui-panel div {
+    padding: 0.5rem 1rem;
+    background-color: #FFE100;
+    border-radius: 0.75rem;
+    color: #FF8C00;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.control-panel {
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    bottom: 2rem;
+    z-index: 20;
+}
+
+.control-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.3s;
+}
+
+.control-button:hover::before {
+    left: 100%;
+}
+
+.control-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Modal styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    display: none;
+}
+
+.modal-content {
+    background-color: #f2e8d5;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 5px solid #d4bda5;
+}
+
+.modal-content button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #ff9800;
+    color: white;
+    border-radius: 9999px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.modal-content button:hover {
+    background-color: #f57c00;
+    transform: translateY(-2px);
+}
+
+.alien-warning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 0, 0, 0.7),
+        rgba(255, 0, 0, 0.7) 25px,
+        rgba(200, 0, 0, 0.7) 25px,
+        rgba(200, 0, 0, 0.7) 50px
+    );
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: flash 0.5s infinite alternate;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 5rem;
+    font-weight: bold;
+    pointer-events: none; /* Allows clicks to go through */
+}
+
+@keyframes flash {
+    from { opacity: 1; }
+    to { opacity: 0.7; }
+}
+
+.hint-container {
+    position: absolute;
+    top: 170px;
+    right: -250px; /* Start mostly off-screen */
+    width: 300px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.hint-container.show {
+    right: 0; /* Slide in */
+}
+
+.hint-tab {
+    position: absolute;
+    top: 38px;
+    left: 0px; /* Position tab outside the container */
+    width: 50px;
+    height: 70px;
+    background-color: #ff9800; /* Orange */
+    color: white;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-align: center;
+    padding: 10px 5px;
+    border-radius: 10px 0 0 10px;
+    font-weight: bold;
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hint-content {
+    width: 250px;
+    height: auto;
+    padding: 1rem;
+    background-color: yellow;
+    color: #333;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
+    margin-left: 50px; /* Make space for the tab */
+}
+
+/* Logbook Modal Styling */
+.logbook-modal-content {
+    width: 80%;
+    height: 80%;
+    max-width: 900px;
+    max-height: 600px;
+    background-color: #f7f1e6;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem;
+    position: relative;
+}
+
+.logbook-container {
+    display: flex;
+    width: 95%;
+    height: 90%;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.book-page {
+    width: 50%;
+    height: 100%;
+    padding: 2rem;
+    border-right: 1px dashed #ccc;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    background-color: #fdf6e3;
+    font-family: 'Playfair Display', serif;
+}
+
+.book-page:last-child {
+    border-right: none;
+}
+
+.book-page h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #4e342e;
+}
+
+.logbook-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.logbook-controls button {
+    background-color: #a1887f;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logbook-controls button:disabled {
+    background-color: #d7c4b6;
+    cursor: not-allowed;
+}
+
+#settings-modal .modal-content {
+    max-width: 400px;
+}
+
+#settings-modal .control-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.settings-label {
+    width: 120px; /* Adjust this value as needed */
+    flex-shrink: 0;
+}
+
+#settings-modal label {
+    width: 120px; /* Adjust this value as needed */
+    flex-shrink: 0;
+}

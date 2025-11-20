@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toserba Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 flex items-center justify-center p-4">
+    <div id="intro-screen" class="absolute inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center z-50">
+        <img src="Images/Ledger Mart.png" alt="Ledger Mart Game Logo" alt="Ledger Mart Game Logo" class="logo-img">
+        <!-- <h1 class="text-6xl font-bold mb-4"><span style="color: #00C2F5;">Tos</span><span style="color: #FDB606;">e</span><span style="color: #F53195;">rba</span></h1> -->
+        <div>
+            <button id="start-game-button" class="control-button bg-green-500 hover:bg-green-600">Start Game</button>
+        </div>
+        <div>
+            <button id="tutorial-button" class="control-button bg-blue-500 hover:bg-blue-600">Tutorial</button>
+        </div>
+        <div>
+            <button id="settings-button" class="control-button bg-gray-400 hover:bg-gray-600">Settings</button>
+        </div>
+        <div>
+            <button id="credits-button" class="control-button bg-purple-500 hover:bg-purple-600">Credits</button>
+        </div>
+    </div>
+
+    <div class="game-container hidden">
+        <!-- Background elements (placeholders for benches, counter, etc.) -->
+        <div class="absolute inset-0 bg-contain bg-center bg-no-repeat" style="background-image: url('https://placehold.co/1200x800/d7c4b6/a1887f?text=Shop+Interior');"></div>
+        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-full h-1/2" style="background-color: #d7bfa5; z-index: 1;"></div>
+        <div class="absolute bottom-0 w-full h-1/3" style="background-color: #a1887f; z-index: 2;"></div>
+
+        <!-- Door (added element) -->
+        <div 
+            class="absolute left-8 bottom-1/3 w-20 h-32 bg-[#7c5a3a] border-4 border-[#4e342e] rounded-md shadow-lg z-10 flex items-end justify-center"
+            style="z-index: 3;">
+        </div>
+
+        
+        <!-- Characters -->
+<div id="character1" class="character">
+    <div class="thought-bubble"></div>
+    <img src="https://placehold.co/200x250/f0e4d7/4e342e?text=Customer+1" alt="Character 1">
+</div>
+<div id="character2" class="character">
+    <div class="thought-bubble"></div>
+    <img src="https://placehold.co/200x250/f0e4d7/4e342e?text=Customer+2" alt="Character 2">
+</div>
+<div id="character3" class="character">
+    <div class="thought-bubble"></div>
+    <img src="https://placehold.co/200x250/f0e4d7/4e342e?text=Customer+3" alt="Character 3">
+</div>
+<div id="character4" class="character">
+    <div class="thought-bubble"></div>
+    <img src="https://placehold.co/200x250/f0e4d7/4e342e?text=Customer+4" alt="Character 4">
+</div>
+<div id="character5" class="character">
+    <div class="thought-bubble"></div>
+    <img src="https://placehold.co/200x250/f0e4d7/4e342e?text=Player" alt="Player Character">
+</div>
+
+<!-- Add these special characters below the customers -->
+<div id="thief" class="character hidden">
+    <img src="WhatsApp Image 2025-10-23 at 15.54.31_5f51effb.png" alt="Thief">
+</div>
+<div id="alien" class="character hidden">
+    <img src="https://placehold.co/200x250/00ff00/000000?text=Alien" alt="Alien">
+</div>
+
+        <div class="timer-panel">
+            <div id="day-display-cover"></div>
+            <div id="day-display-back"></div>
+            <div id="day-display-front">Day: 1</div>
+            <div id="timer-display-cover"></div>
+            <div id="timer-display-back"></div>
+            <div id="timer-display-front">Time: 00:00:00</div>
+            <div id="weather-display-cover"></div>
+            <div id="weather-display-back"></div>
+            <div id="weather-display-front">Cerah</div>
+            <div id="event-chance-display" style="margin-top: 8px; font-size: 14px; color: #6b5247;">
+    Alien Chance: <span id="alien-chance-value"></span> | 
+    Thief Chance: <span id="thief-chance-value"></span>
+</div>
+        </div>
+      
+        <div class="ui-panel">
+            <div id="money-display">Money: 1000</div>
+        </div>
+
+        <!-- Item Stands -->
+        <div id="item-stands-container" class="stands-container">
+            <!-- Item stands will be dynamically generated here -->
+        </div>
+
+        <div class="control-panel">
+            <button id="restock-button" class="control-button bg-blue-500 hover:bg-blue-600">Restock</button>
+            <button id="set-prices-button" class="control-button bg-blue-500 hover:bg-blue-600">Set Prices</button>
+            <button id="view-logbook-button" class="control-button bg-blue-500 hover:bg-blue-600">View Reports</button>
+            <button id="next-day-button" class="control-button bg-green-500 hover:bg-green-600">Next Day</button>
+        </div>
+    </div>
+
+    <div id="alien-warning-overlay" class="alien-warning" style="display: none;">
+        <p>ALIEN ATTACK!</p>
+    </div>
+
+    <div id="hint-container" class="hint-container">
+        <div class="hint-tab">HINT</div>
+        <div class="hint-content">
+            <h4><b>Warning!</b></h4>
+            <p>Aliens and robbers can appear at any time and disrupt your business.</p>
+            <p><b>Click on them rapidly to drive them away!</b></p>
+        </div>
+    </div>
+
+    <!-- Modal for game messages and reports -->
+    <div id="daily-report-modal" class="modal">
+        <div class="logbook-modal-content">
+            <h2 class="text-3xl font-bold font-[Playfair Display] text-[#4e342e] mb-4">Reports</h2>
+            <div class="logbook-container">
+                <div id="report-page-left" class="book-page"></div>
+                <div id="report-page-right" class="book-page"></div>
+            </div>
+            <div class="logbook-controls">
+                <button id="prev-report-page-button">Previous</button>
+                <button id="next-report-page-button">Next</button>
+            </div>
+            <button id="daily-report-close-button" class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">Close</button>
+        </div>
+    </div>
+
+    <div id="end-of-day-report-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">End of Day Report</h2>
+            <div id="end-of-day-report-content"></div>
+            <button id="end-of-day-report-close-button" class="control-button mt-4">Continue</button>
+        </div>
+    </div>
+
+
+
+    <div id="daily-summary-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">Daily Summary</h2>
+            <div id="daily-summary-content"></div>
+            <button id="start-next-day-button" class="control-button mt-4">Start Next Day</button>
+        </div>
+    </div>
+
+    <div id="game-modal" class="modal">
+        <div id="modal-content" class="modal-content">
+            <p id="modal-text" class="text-gray-800 text-lg"></p>
+            <button id="modal-close-button">OK</button>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">Settings</h2>
+            <div class="flex items-center justify-between mb-4">
+                <label for="master-volume-slider" class="mr-4 settings-label">Master Volume</label>
+                <input type="range" id="master-volume-slider" min="0" max="1" step="0.1" value="1" class="w-full">
+            </div>
+            <div class="flex items-center justify-between mb-4">
+                <label for="music-volume-slider" class="mr-4 settings-label">Music Volume</label>
+                <input type="range" id="music-volume-slider" min="0" max="1" step="0.1" value="1" class="w-full">
+            </div>
+            <div class="flex items-center justify-between mb-4">
+                <label for="sfx-volume-slider" class="mr-4 settings-label">SFX Volume</label>
+                <input type="range" id="sfx-volume-slider" min="0" max="1" step="0.1" value="1" class="w-full">
+            </div>
+            <div class="flex items-center justify-between">
+                <label for="mute-button" class="mr-4 settings-label">Mute All</label>
+                <button id="mute-button" class="control-button">Mute</button>
+            </div>
+            <button id="settings-close-button" class="control-button mt-4">Close</button>
+        </div>
+    </div>
+
+    <!-- Special Characters -->
+<div id="thief" class="character hidden">
+    <img src="WhatsApp Image 2025-10-23 at 15.54.31_5f51effb.png">
+</div>
+<div id="alien" class="character hidden">
+    <img src="https://placehold.co/200x250/00ff00/000000?text=Alien" alt="Alien">
+</div>
+
+
+    <audio id="alien-alarm" src="https://www.soundjay.com/buttons/sounds/button-7.mp3" preload="auto"></audio>
+    <audio id="background-music" src="https://www.soundjay.com/ambient/sounds/shopping-mall-1.mp3" loop preload="auto"></audio>
+    <audio id="ui-click" src="https://www.soundjay.com/buttons/sounds/button-4.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
