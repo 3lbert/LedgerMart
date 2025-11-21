@@ -3,7 +3,10 @@
 body {
     font-family: "Nunito", sans-serif;
     font-style: normal;
-    background-color: #f0e4d7;
+    background-image: url('WhatsApp\ Image\ 2025-11-07\ at\ 10.21.33_144d402c.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,12 +97,12 @@ img{
 
 .character.average-joe img {
     width: 30%;
-    content: url('customer_a.png');
+    content: url('customer_b.png');
 }
 
 .character.big-spender img {
     width: 30%;
-    content: url('customer_a.png');
+    content: url('customer_c.png');
 }
 
 .thought-bubble {
